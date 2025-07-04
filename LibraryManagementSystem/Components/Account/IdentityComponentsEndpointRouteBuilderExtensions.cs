@@ -1,16 +1,16 @@
 using System.Security.Claims;
 using System.Text.Json;
+using LibraryManagementSystem.Components.Account.Pages;
+using LibraryManagementSystem.Components.Account.Pages.Manage;
+using LibraryManagementSystem.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using LibraryManagementSystem.Components.Account.Pages;
-using LibraryManagementSystem.Components.Account.Pages.Manage;
-using LibraryManagementSystem.Data;
 
-namespace Microsoft.AspNetCore.Routing;
+namespace LibraryManagementSystem.Components.Account;
 
 internal static class IdentityComponentsEndpointRouteBuilderExtensions
 {
