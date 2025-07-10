@@ -7,7 +7,9 @@ namespace LibraryManagementSystem.Data;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : IdentityDbContext<ApplicationUser>(options)
 {
+    public DbSet<Book> Book { get; set; } = default!;
     public DbSet<Location> Location { get; set; } = default!;
+    public DbSet<Store> Store { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
