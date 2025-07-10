@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.Models
 {
-    [PrimaryKey("BookSortCallNumber", "BookFormCallNumber",
-        "LocationLevel", "LocationId")]
+    /*[PrimaryKey("BookSortCallNumber", "BookFormCallNumber",
+        "LocationLevel", "LocationId")]*/
     public class Store
     {
         [StringLength(15)]
