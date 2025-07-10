@@ -32,7 +32,25 @@ public class Program
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                                throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(connectionString));
+        {
+            options.UseSqlServer(connectionString);
+            options.UseAsyncSeeding(async (context, _, cancellationToken) =>
+            {
+                if (context is not ApplicationDbContext applicationDbContext)
+                {
+                    throw new InvalidOperationException("Context must be of type ApplicationDbContext");
+                }
+                var any = await applicationDbContext.Roles.AnyAsync(cancellationToken);
+                if (!any)
+                {
+                    await applicationDbContext.Roles.AddRangeAsync(
+                        new IdentityRole("admin") { NormalizedName = "ADMIN" },
+                        new IdentityRole("reader") { NormalizedName = "READER" }
+                    );
+                }
+                await applicationDbContext.SaveChangesAsync(cancellationToken);
+            });
+        });
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
