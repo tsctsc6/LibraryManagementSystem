@@ -59,6 +59,7 @@ public class Program
 
         builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddRoles<IdentityRole>()
             .AddSignInManager()
             .AddDefaultTokenProviders();
 
