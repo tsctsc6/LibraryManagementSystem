@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using LibraryManagementSystem.Components;
 using LibraryManagementSystem.Components.Account;
 using LibraryManagementSystem.Data;
+using LibraryManagementSystem.Utils;
 
 namespace LibraryManagementSystem;
 
@@ -29,6 +30,8 @@ public class Program
             })
             .AddIdentityCookies();
 
+        builder.Services.AddScoped<AdminInitializer>();
+
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                                throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -48,6 +51,7 @@ public class Program
                         new IdentityRole("reader") { NormalizedName = "READER" }
                     );
                 }
+                
                 await applicationDbContext.SaveChangesAsync(cancellationToken);
             });
         });
@@ -66,6 +70,7 @@ public class Program
         {
             await scope.ServiceProvider.GetRequiredService<ApplicationDbContext>()
                 .Database.EnsureCreatedAsync();
+            await scope.ServiceProvider.GetRequiredService<AdminInitializer>().InitializeAdminAsync();
         }
 
         // Configure the HTTP request pipeline.
